@@ -28,9 +28,7 @@ export default function Register() {
     if (!name || !email || !phone || !gender || !dob || !password || !confirm) {
       return 'All fields are required';
     }
-    // simple email check
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Enter a valid email';
-    // phone: 10 digits (adjust per your country)
     if (!/^[6-9]\d{9}$/.test(phone)) return 'Enter a valid 10-digit phone number';
     if (password.length < 6) return 'Password must be at least 6 characters';
     if (password !== confirm) return 'Passwords do not match';
@@ -46,8 +44,8 @@ export default function Register() {
 
     setLoading(true);
     try {
-      // adjust endpoint if your backend path is different
-      const res = fetch(`${import.meta.env.VITE_API_URL}/register`, {
+      // ✅ fixed: await the fetch
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +56,7 @@ export default function Register() {
             dob: form.dob,
             password: form.password
         })
-    });
+      });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
