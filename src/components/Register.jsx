@@ -45,7 +45,7 @@ export default function Register() {
     setLoading(true);
     try {
       // ✅ fixed: await the fetch
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
+      const res = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,7 +56,7 @@ export default function Register() {
             dob: form.dob,
             password: form.password
         })
-      });
+    });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
